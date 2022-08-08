@@ -6,6 +6,7 @@ import MetaIcon from '../assets/meta.png'
 import WalletConnect from '../assets/wallet.svg'
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Modal from './Modal';
 const WalletButton = (props) => {
   const [modalShow, setModalShow] = useState(false)
@@ -41,8 +42,35 @@ const WalletButton = (props) => {
     }
   }, [active])
 
-  const mint = (mintType) => {
-    console.log("hello", mintType)
+  const mint = async (mintType) => {
+    if(props.mintType === 1) {
+      console.log("hello1", mintType)
+      try {
+        if(active) {
+          await mintContract.methods.mintPublic(props.amount).send({from:account, value: props.price})
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } 
+    if(props.mintType === 2) {
+      try {
+        if(active) {
+          await mintContract.methods.mintPreSale(props.amount).send({from:account, value: props.price})
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } 
+    if(props.mintType === 3) {
+      try {
+        if(active) {
+          await mintContract.methods.mintPreSale(props.amount).send({from:account, value: props.price})
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } 
   }
 
   // Connection Modal
