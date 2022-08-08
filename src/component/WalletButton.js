@@ -1,14 +1,16 @@
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
 import { MetaMaskconnector, walletconnect } from '../wallet/wallet'
 import { useCallback, useEffect, useState } from 'react'
+import { useMintContract } from '../config/contract'
 import MetaIcon from '../assets/meta.png'
 import WalletConnect from '../assets/wallet.svg'
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from './Modal';
-const WalletButton = () => {
+const WalletButton = (props) => {
   const [modalShow, setModalShow] = useState(false)
   const { active, activate, deactivate, account, error } = useWeb3React()
+  const mintContract = useMintContract();
 
   const isUnsupportedChain = error instanceof UnsupportedChainIdError
   useEffect(() => {
@@ -38,6 +40,10 @@ const WalletButton = () => {
       setModalShow(false)
     }
   }, [active])
+
+  const mint = (mintType) => {
+    console.log("hello", mintType)
+  }
 
   // Connection Modal
   const WalletConnector = ({ show, onHide }) => {
@@ -83,9 +89,10 @@ const WalletButton = () => {
           <div>{isUnsupportedChain ? 'Switch to Chain' : 'Connect'}</div>
         </button>
       ) : (
-        <button className="rounded-full flex items-center py-2 px-12 bg-blue-900 m-0.5 space-x-2" onClick={handleDisconnect}>
-          <FontAwesomeIcon icon={faWallet}  className="w-5 h-5 text-blue-460"/>
-          <div>{`${account.slice(0, -38)}...${account.substring(40)}`}</div>
+        <button className="rounded-full flex items-center py-2 px-12 bg-blue-900 m-0.5 space-x-2" onClick={()=>mint(props.mintType)}>
+          {props.mintType === 1 && <div>Public Mint</div>}
+          {props.mintType === 2 && <div>Pre Mint</div>}
+          {props.mintType === 3 && <div>WhiteList</div>}
         </button>
       )}
       <WalletConnector show={modalShow} onHide={() => setModalShow(false)} />
