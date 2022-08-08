@@ -38,6 +38,7 @@ const WalletButton = () => {
       setModalShow(false)
     }
   }, [active])
+
   // Connection Modal
   const WalletConnector = ({ show, onHide }) => {
     return (
