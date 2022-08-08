@@ -4,8 +4,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { useMintContract } from '../config/contract'
 import MetaIcon from '../assets/meta.png'
 import WalletConnect from '../assets/wallet.svg'
-import { faWallet } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Modal from './Modal';
 const WalletButton = (props) => {
@@ -113,11 +111,11 @@ const WalletButton = (props) => {
   return (
     <>
       {!active ? (
-        <button className="rounded-full flex items-center py-2 px-20 bg-blue-460  m-0.5" onClick={() => setModalShow(true)}>
+        <button className="rounded-full flex items-center py-2 px-20 bg-blue-450 hover:bg-blue-460  m-0.5" onClick={() => setModalShow(true)}>
           <div>{isUnsupportedChain ? 'Switch to Chain' : 'Connect'}</div>
         </button>
       ) : (
-        <button className="rounded-full flex items-center py-2 px-12 bg-blue-900 m-0.5 space-x-2" onClick={()=>mint(props.mintType)}>
+        <button className="rounded-full flex items-center py-2 px-12 bg-blue-450 hover:bg-blue-460 m-0.5 space-x-2" onClick={()=>mint(props.mintType)}>
           {props.mintType === 1 && <div>Public Mint</div>}
           {props.mintType === 2 && <div>Pre Mint</div>}
           {props.mintType === 3 && <div>WhiteList</div>}
