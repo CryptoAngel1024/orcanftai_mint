@@ -2,10 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Navbar from './component/Navbar'
-import WalletManager from './page/WalletManager'
-import Collections from './page/Collections'
-import Analysis from './page/Analysis'
 import Mint from './page/Mint'
 import { Web3ReactProvider } from '@web3-react/core';
 import { getLibrary } from './wallet/wallet'
@@ -22,12 +18,8 @@ ReactDOM.render(
     <Web3ReactProvider getLibrary={getLibrary}>
       <MetamaskProvider>
         <BrowserRouter>
-          <Navbar/>
           <Routes>
             <Route path="/" element={<Mint />} />
-            <Route path="/wallet-manager" element={<WalletManager/>} />
-            <Route path="/collections" element={<Collections/>} />
-            <Route path="/analysis/:collectionName" element={<Analysis/>} />
           </Routes>
         </BrowserRouter>
       </MetamaskProvider>
