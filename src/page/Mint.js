@@ -92,14 +92,8 @@ const Mint = () => {
   return (
     <div className="h-screen">
       <div className="text-white flex items-center border-b border-blue-830 justify-between px-8 bg-blue-860 backdrop-blur">
-        <div className="flex items-center space-x-8 py-6 text-xl font-bold">
-          <div className="text-blue-460 hover:text-white">HOME</div>
-          <div className="text-blue-460 hover:text-white">THE PROJECT</div>
-          <div className="text-blue-460 hover:text-white">ROADMAP</div>
-          <div className="text-blue-460 hover:text-white">FAQ</div>
-          <div className="text-blue-460 hover:text-white">TEAM</div>
-          <div className="text-blue-460 hover:text-white">2022 PERFORMANCE</div>
-          <div className="text-blue-460 hover:text-white">WHITE PAPER</div>
+        <div className="flex items-center justify-center space-x-8 py-6 text-xl font-bold">
+          <div className="text-blue-460 text-xl text-center">ORCA NFT AI MINT PAGE</div>
         </div>
       </div>
       <div className="flex justify-center items-center flex-col space-y-5 mt-4">
