@@ -1,16 +1,18 @@
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
 import { MetaMaskconnector, walletconnect } from '../wallet/wallet'
 import { useCallback, useEffect, useState } from 'react'
-import { useMintContract } from '../config/contract'
 import MetaIcon from '../assets/meta.png'
 import WalletConnect from '../assets/wallet.svg'
+import { ethers, BigNumber } from "ethers";
+import mintABI from "../config/mint.json"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Modal from './Modal';
 const WalletButton = (props) => {
   const [modalShow, setModalShow] = useState(false)
   const { active, activate, deactivate, account, error } = useWeb3React()
-  const mintContract = useMintContract();
-
+ 
   const isUnsupportedChain = error instanceof UnsupportedChainIdError
   useEffect(() => {
     if (active) {
@@ -39,13 +41,25 @@ const WalletButton = (props) => {
       setModalShow(false)
     }
   }, [active])
-
+  const publicMint = async () => {
+    const {ethereum} = window;
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner(account)
+    const nftContract = new ethers.Contract(`${process.env.REACT_APP_NFT}`, mintABI, signer);
+    try {
+      await nftContract.mintPublic(BigNumber.from(props.amount), {value: ethers.utils.parseEther(props.price.toString())});
+    } catch (err) {
+      console.log("err", err)
+      toast.error('insufficient funds');
+    }
+  }
   const mint = async (mintType) => {
     if(props.mintType === 1) {
+      
       console.log("hello1", mintType)
       try {
         if(active) {
-          await mintContract.methods.mintPublic(props.amount).send({from:account, value: props.price})
+          publicMint();
         }
       } catch (error) {
         console.log(error);
@@ -54,7 +68,7 @@ const WalletButton = (props) => {
     if(props.mintType === 2) {
       try {
         if(active) {
-          await mintContract.methods.mintPreSale(props.amount).send({from:account, value: props.price})
+          publicMint();
         }
       } catch (error) {
         console.log(error);
@@ -63,7 +77,7 @@ const WalletButton = (props) => {
     if(props.mintType === 3) {
       try {
         if(active) {
-          await mintContract.methods.mintPreSale(props.amount).send({from:account, value: props.price})
+          publicMint();
         }
       } catch (error) {
         console.log(error);
@@ -122,6 +136,7 @@ const WalletButton = (props) => {
         </button>
       )}
       <WalletConnector show={modalShow} onHide={() => setModalShow(false)} />
+      <ToastContainer />
     </>
   )
 }

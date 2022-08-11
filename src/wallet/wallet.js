@@ -5,7 +5,7 @@ import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 export const MetaMaskconnector = new InjectedConnector({ supportedChainIds: [1] });
 
 export const walletconnect = new WalletConnectConnector({
-  rpc: { 1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`},
+  rpc: { 1: "https://rpc.ankr.com/eth"},
   chainId: 1,
   supportedChainIds:[1],
   bridge: "https://bridge.walletconnect.org",

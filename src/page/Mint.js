@@ -13,7 +13,8 @@ const Mint = () => {
   const [amount1, setAmount1] = useState(1)
   const [amount2, setAmount2] = useState(1)
   const [amount3, setAmount3] = useState(1)
-  const web3 = new Web3("https://mainnet.infura.io/v3/202fe8f1f38d4c468742ce31f9ecbd7f")
+  const web3 = new Web3("https://rpc.ankr.com/eth")
+  
   const mintContract = new web3.eth.Contract(ABI_MINT, `${process.env.REACT_APP_NFT}`);
   useEffect(() => {
     getTotalSupply();
