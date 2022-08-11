@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Modal from './Modal';
 const WalletButton = (props) => {
   const [modalShow, setModalShow] = useState(false)
-  const { active, activate, deactivate, account, error } = useWeb3React()
+  const { active, activate, account, error } = useWeb3React()
  
   const isUnsupportedChain = error instanceof UnsupportedChainIdError
   useEffect(() => {
@@ -31,17 +31,38 @@ const WalletButton = (props) => {
     }
   }
 
-  const handleDisconnect = () => {
-    deactivate()
-    localStorage.removeItem('shouldEagerConnect')
-    window.location.reload()
-  }
   useEffect(() => {
     if (active) {
       setModalShow(false)
     }
   }, [active])
   const publicMint = async () => {
+    const {ethereum} = window;
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner(account)
+    const nftContract = new ethers.Contract(`${process.env.REACT_APP_NFT}`, mintABI, signer);
+    try {
+      await nftContract.mintPublic(BigNumber.from(props.amount), {value: ethers.utils.parseEther(props.price.toString())});
+    } catch (err) {
+      console.log("err", err)
+      toast.error('insufficient funds');
+    }
+  }
+
+  const preMint = async () => {
+    const {ethereum} = window;
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner(account)
+    const nftContract = new ethers.Contract(`${process.env.REACT_APP_NFT}`, mintABI, signer);
+    try {
+      await nftContract.mintPublic(BigNumber.from(props.amount), {value: ethers.utils.parseEther(props.price.toString())});
+    } catch (err) {
+      console.log("err", err)
+      toast.error('insufficient funds');
+    }
+  }
+
+  const ogMint = async () => {
     const {ethereum} = window;
     const provider = new ethers.providers.Web3Provider(ethereum)
     const signer = provider.getSigner(account)
@@ -68,7 +89,7 @@ const WalletButton = (props) => {
     if(props.mintType === 2) {
       try {
         if(active) {
-          publicMint();
+          preMint();
         }
       } catch (error) {
         console.log(error);
@@ -77,7 +98,7 @@ const WalletButton = (props) => {
     if(props.mintType === 3) {
       try {
         if(active) {
-          publicMint();
+          ogMint();
         }
       } catch (error) {
         console.log(error);
